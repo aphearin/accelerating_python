@@ -1,0 +1,6 @@
+*.c
+*.so
+*.pyc
+build/*
+.cache/*
+*.html
