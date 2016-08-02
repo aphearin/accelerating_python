@@ -38,6 +38,11 @@ def serial_pairwise_sum_python(arr1, arr2, arr1_loop_indices=None):
         Element *k* of ``result`` equals *arr1[i] + arr2[j]*, where
         *i = k // npts2* and *j = k % npts2*.
 
+    Examples
+    ----------
+    >>> x = [1, 2, 3]
+    >>> y = [4, 5, 6, 7]
+    >>> result = serial_pairwise_sum_python(x, y)
     """
     npts1, npts2 = len(arr1), len(arr2)
     result = np.zeros(npts1*npts2)
