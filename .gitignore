@@ -4,3 +4,4 @@
 build/*
 .cache/*
 *.html
+.ipynb_checkpoints/*
