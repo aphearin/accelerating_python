@@ -5,18 +5,21 @@ import numpy as np
 from time import time
 from pairwise_python import serial_pairwise_sum_python
 
+# Import cython module, catching the case where you forgot to compile the code
 try:
     from pairwise_sum_cython import pairwise_sum_cython
 except ImportError:
     msg = "The cython module must be compiled first via ``python setup.py build_ext --inplace``"
     raise ImportError(msg)
 
+# Catch optional npts command-line argument using argparse
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-npts", help="Number of elements in the dummy input arrays x and y",
     default=int(1e3), type=int)
 args = parser.parse_args()
 
+# run the timing tests and print the results
 x, y = np.arange(args.npts), np.arange(args.npts)
 
 start = time()
@@ -28,6 +31,3 @@ start = time()
 serial_cython_result = pairwise_sum_cython(x, y)
 end = time()
 print("Total runtime for serial pairwise_sum_cython = {0:.1f} ms\n\n".format((end-start)*1000.))
-
-error_msg = "Error: python and cython modules do not agree!\a"
-assert np.all(serial_python_result == serial_cython_result), error_msg
