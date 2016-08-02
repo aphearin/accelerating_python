@@ -14,3 +14,17 @@ To run the testing suite:
 
 $ py.test
 
+To call the pairwise functions from a python session:
+
+```
+npts = 1000
+x, y = np.arange(npts), np.arange(npts)
+
+from pairwise_python import serial_pairwise_sum_python
+serial_python_result = serial_pairwise_sum_python(x, y)
+
+from pairwise_sum_cython import pairwise_sum_cython
+serial_cython_result = pairwise_sum_cython(x, y)
+parallel_cython_result = pairwise_sum_cython(x, y, num_threads=2)
+
+```

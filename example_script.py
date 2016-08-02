@@ -6,7 +6,7 @@ from time import time
 from pairwise_python import serial_pairwise_sum_python
 
 try:
-    from pairwise_sum_cython_engine import pairwise_sum_cython_engine
+    from pairwise_sum_cython import pairwise_sum_cython
 except ImportError:
     msg = "The cython module must be compiled first via ``python setup.py build_ext --inplace``"
     raise ImportError(msg)
@@ -25,7 +25,7 @@ end = time()
 print("\n\nTotal runtime for serial pairwise_sum_python = {0:.1f} ms".format((end-start)*1000.))
 
 start = time()
-serial_cython_result = pairwise_sum_cython_engine(x, y)
+serial_cython_result = pairwise_sum_cython(x, y)
 end = time()
 print("Total runtime for serial pairwise_sum_cython = {0:.1f} ms\n\n".format((end-start)*1000.))
 

@@ -45,7 +45,7 @@ def parallelization_indices(for_loop_length, num_threads):
     if num_threads == 1:
         return 1, [(0, for_loop_length)]
     elif num_threads > for_loop_length:
-        return for_loop_length, [(a, a+1) for a in np.arange(for_loop_length)]
+        return for_loop_length, [(a, a+1) for a in range(for_loop_length)]
     else:
         list_with_possibly_empty_arrays = np.array_split(np.arange(for_loop_length), num_threads)
         list_of_nonempty_arrays = [a for a in list_with_possibly_empty_arrays if len(a) > 0]
