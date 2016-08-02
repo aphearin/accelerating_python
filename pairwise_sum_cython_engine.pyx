@@ -47,10 +47,10 @@ def pairwise_sum_cython_engine(arr1, arr2, arr1_loop_indices=None):
     cdef cnp.float64_t[:] arr2_view = np.ascontiguousarray(arr2, dtype=np.float64)
 
     cdef int first_idx, last_idx
-    if arr1_loop_indices is None:
-        first_idx, last_idx = 0, npts1
-    else:
+    try:
         first_idx, last_idx = arr1_loop_indices
+    except TypeError:
+        first_idx, last_idx = 0, npts1
 
     cdef int i, j, idx_result
     cdef cnp.float64_t x, y

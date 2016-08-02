@@ -42,10 +42,10 @@ def serial_pairwise_sum_python(arr1, arr2, arr1_loop_indices=None):
     npts1, npts2 = len(arr1), len(arr2)
     result = np.zeros(npts1*npts2)
 
-    if arr1_loop_indices is None:
-        first_idx, last_idx = 0, npts1
-    else:
+    try:
         first_idx, last_idx = arr1_loop_indices
+    except TypeError:
+        first_idx, last_idx = 0, npts1
 
     for i in range(first_idx, last_idx):
         x = arr1[i]
