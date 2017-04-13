@@ -4,12 +4,46 @@ The purpose of this repository is to provide a few worked examples of how to spe
 
 ## Getting started 
 
-The place to start is with the `serial_pairwise_sum_python` function defined in the `pairwise_python.py` module. This function calculates the pairwise sum of all elements of two input arrays. The `serial_pairwise_sum_python ` implementation is serial and pure python; all other functions in the repo are just alternative (faster) implementations, so be sure to understand how this function works before moving on. 
+Cython is a tool that transforms your python code into compiled C. This means there is an extra step involved between code development and code use: you must compile your cython code before you can call it from python. 
 
+This repository demonstrates two different ways to compile Cython code: first using a Jupyter Notebook, and second using a `setup.py`. Using a `setup.py` file is more powerful, since it makes it easier to integrate your Cython code throughout your python modules, but using a Notebook is simpler for quick prototyping. To get started, we'll use the Notebook way of doing things since compiling Cython in a notebook is so easy, this will let us focus straight away on how to write cython in the next section. In the following section, we'll return show the `setup.py` way of doing things. 
 
-## Writing Cython code
+Either way, make sure you `pip install cython` before moving on. 
 
+## Basics of Writing Cython
+
+If you know some python, you already know most Cython, because Cython is a formal superset of python, so __all valid python is also valid cython.__ 
 In the vast majority of cases, Cython code is just python code with some type declarations added to make your loops run faster. 
+
+To see that in action, open up the Jupyter notebook and have a look at the code for computing pairwise sums. The python and cython algorithms are identical: it's just a double for loop over the elements of the two arrays. The main difference is just that in Cython, you can declare the types of the variables used in your loops. This saves the python interpreter from needlessly type-checking your loop variable at each iteration, which can result in dramatic performance enhancements. 
+
+Note that you don't *have* to declare those types. If you delete those lines of code, it still compiles and runs just fine (try it!). But when you do include the type declarations, it just makes your code run faster. 
+
+Floats and integers and longs and doubles in Cython are declared like this:
+
+```
+cdef float some_float
+cdef int some_int
+cdef double some_double
+cdef long some_long
+```
+
+The modern way to declare an array in Cython is as follows:
+
+```
+cdef float[:] some_float_array
+```
+The fancy term for an array declared in this way is a "Cython typed memoryview". See the `cython_declaration_experimentation.ipynb` notebook for how memoryviews are different from Numpy arrays. 
+
+In many cases, you want to initialize your arrays to have some values. In that case, you will need to take care that the initialized values have a consistent type with the declared type, or Cython will raise an exception:
+
+```
+cdef double[:] some_double_array = np.zeros(5, dtype='f8')
+cdef float[:] some_float_array = np.zeros(5, dtype='f4')
+```
+
+See the `cython_declaration_experimentation.ipynb` notebook to learn a little more about variable declarations, and to play around with things for yourself. 
+
 
 
 $ python setup.py build_ext --inplace
@@ -36,3 +70,5 @@ serial_cython_result = pairwise_sum_cython(x, y)
 parallel_cython_result = pairwise_sum_cython(x, y, num_threads=2)
 
 ```
+
+There are in fact many other ways to compile Cython, but these are two of the most common ways, so just refer to the online documentation if you want other options. 
