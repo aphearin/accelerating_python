@@ -1,8 +1,21 @@
-## Accelerating python with cython
+# Accelerating Python 
 
-This repository contains a simple but non-trivial example of how to speed up a python calculation using a combination of cython and the multiprocessing module. 
+The purpose of this repository is to provide a few worked examples of how to speed up your python code in two different ways:
 
-The basic calculation is to compute the pairwise sum of all elements of two input arrays. There is a python implementation and a cython implementation, each of which can be run in serial or in parallel. To use the cython function, the code must first be compiled:
+* Using the python multiprocessing module
+* Using Cython
+
+The approach is to take a simple but non-trivial calculation, and do it repeatedly in different ways to demonstrate some of the tricks involved in writing cythonized parallel code. This repository is intended for people with basic knowledge of python, but no prior experience with either Cython or multiprocessing. If you are only interested in Cython, and not parallelization, you can simply ignore the sections on multiprocessing, and conversely. 
+
+## Getting started 
+
+The place to start is with the `serial_pairwise_sum_python` function defined in the `pairwise_python.py` module. This function calculates the pairwise sum of all elements of two input arrays. The `serial_pairwise_sum_python ` implementation is serial and pure python; all other functions in the repo are just alternative (faster) implementations, so be sure to understand how this function works before moving on. 
+
+
+## Writing Cython code
+
+In the vast majority of cases, Cython code is just python code with some type declarations added to make your loops run faster. 
+
 
 $ python setup.py build_ext --inplace
 
