@@ -8,7 +8,7 @@ This repository is intended for people with basic knowledge of python, but no pr
 
 Cython is a tool that transforms your python code into compiled C. This means there is an extra step involved between code development and code use: you must compile your cython code before you can call it from python. 
 
-This repository demonstrates two different ways to compile Cython code: first using a Jupyter Notebook, and second using a `setup.py`. Using a `setup.py` file is more powerful, since it makes it easier to integrate your Cython code throughout your python modules, but using a Notebook is simpler for quick prototyping. To get started, we'll use the Notebook way of doing things since compiling Cython in a notebook is so easy, this will let us focus straight away on how to write cython in the next section. In the subsequent section, we'll return show the `setup.py` way of doing things. 
+This repository demonstrates two different ways to compile Cython code: first using a Jupyter Notebook, and second using a `setup.py`. Using a `setup.py` file is more powerful, since it makes it easier to integrate your Cython code throughout your python modules, but using a Notebook is simpler for quick prototyping. To get started, we'll use the Notebook way of doing things since compiling Cython in a notebook is so easy; this will let us focus straight away on how to write cython in the next section. In the subsequent section, we'll show the `setup.py` way of doing things and demonstrate good coding organization practice for writing Cython code that is integrated with Python. 
 
 Either way, make sure you `pip install cython` before moving on. 
 
@@ -19,7 +19,7 @@ These notes provide some flesh to the highly recommended series of blog posts on
 If you know some python, you already know most Cython, because Cython is a formal superset of python, so __all valid python is also valid cython.__ 
 In the vast majority of cases, Cython code is just python code with some type declarations added to make your loops run faster. 
 
-To see that in action, open up the Jupyter notebook and have a look at the code for computing pairwise sums. The python and cython algorithms are identical: it's just a double for loop over the elements of the two arrays. The main difference is just that in Cython, you can declare the types of the variables used in your loops. This saves the python interpreter from needlessly type-checking your loop variable at each iteration, which can result in dramatic performance enhancements. 
+To see that in action, open up the Jupyter notebook `cython_pairwise_summation.ipynb` and have a look at the code for computing pairwise sums. The python and cython algorithms are identical: it's just a double for loop over the elements of the two arrays. The main difference is just that in Cython, you can declare the types of the variables used in your loops. This saves the python interpreter from needlessly type-checking your loop variable at each iteration, which can result in dramatic performance enhancements. 
 
 Note that you don't *have* to declare those types. If you delete those lines of code, it still compiles and runs just fine (try it!). But when you do include the type declarations, it just makes your code run faster. 
 
@@ -56,7 +56,7 @@ Open up `pairwise_sum_cython.py` and `pairwise_sum_cython_engine.pyx` with a tex
 
 This illustrates a very useful design pattern: use python to write code that faces the "outside world", and only use Cython to handle the tiny little expensive operation that dominates the runtime. This way, you can do all your normal bounds-checking and error-handling in pure python, and then only pass in to Cython a set of arguments that you are confident it can properly handle. 
 
-This leaves us with the need to actually compile the code that gets written in a Cython module. The code responsible for that is written in `setup.py`. This is utterly boilerplate code that can be copied-and-pasted over and over again. This repo makes no attempt at all to explain this machinery - see the online documentation if you are curious. The only thing that will change from user to user is the filename of the Cython module. If you have more than one cython module, just add an additional string to the list that currently contains `['pairwise_sum_cython_engine.pyx']`, e.g., `['pairwise_sum_cython_engine.pyx', 'another_module.pyx']`
+This leaves us with the need to actually compile the code that gets written in a Cython module. The code responsible for that is written in `setup.py`. This is four lines of utterly boilerplate code that can be copied-and-pasted over and over again. This README makes no attempt at all to explain this machinery - google around the online documentation if you are curious. The only thing that will change from user to user is the filename of the Cython module. If you have more than one cython module, just add an additional string to the list that currently contains `['pairwise_sum_cython_engine.pyx']`, e.g., `['pairwise_sum_cython_engine.pyx', 'another_module.pyx']`. There are many more fancy things you can do with a `setup.py` file, but the one written here covers the vast majority of simple use-cases in scientific computing. 
 
 Once you have written your `setup.py` file, you can compile it as follows:
 
