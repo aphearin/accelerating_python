@@ -9,8 +9,8 @@ __all__ = ('test_pairwise_sum_cython1', )
 
 
 def test_pairwise_sum_cython1():
-    x = np.arange(-50, 50)
-    y = np.arange(-500, 500, 10)
+    x = np.arange(-50, 50).astype('f8')
+    y = np.arange(-500, 500, 10).astype('f8')
 
     python_result = serial_pairwise_sum_python(x, y)
     cython_result = pairwise_sum_cython(x, y)

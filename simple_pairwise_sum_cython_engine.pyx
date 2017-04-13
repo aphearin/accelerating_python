@@ -1,8 +1,6 @@
 """ Module storing the kernel of the cythonized calculation of pairwise summation.
 """
-import numpy as np # use import to get numpy functions
-cimport numpy as cnp # use cimport to get numpy types, renaming as cnp for clarity
-
+import numpy as np
 cimport cython # only necessary for the performance-enhancing decorators
 
 __all__ = ('simple_pairwise_sum_cython_engine', )

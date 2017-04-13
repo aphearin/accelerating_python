@@ -3,9 +3,7 @@
 This version of the cython engine permits a parallelized calculation through the
 use of the arr1_loop_indices argument.
 """
-import numpy as np # use import to get numpy functions
-cimport numpy as cnp # use cimport to get numpy types, renaming as cnp for clarity
-
+import numpy as np
 cimport cython # only necessary for the performance-enhancing decorators
 
 __all__ = ('pairwise_sum_cython_engine', )
@@ -15,7 +13,7 @@ __all__ = ('pairwise_sum_cython_engine', )
 @cython.boundscheck(False)  # Assume indexing operations will not cause any IndexErrors to be raised
 @cython.wraparound(False)  #  Accessing array elements with negative numbers is not permissible
 @cython.nonecheck(False)  #  Never waste time checking whether a variable has been set to None
-def pairwise_sum_cython_engine(arr1, arr2, arr1_loop_indices=None):
+def pairwise_sum_cython_engine(double[:] arr1, double[:] arr2, arr1_loop_indices=None):
     """ Function calculates the pairwise sum of all elements in arr1 and arr2.
 
     Parameters
@@ -46,10 +44,7 @@ def pairwise_sum_cython_engine(arr1, arr2, arr1_loop_indices=None):
     cdef int npts1 = len(arr1)
     cdef int npts2 = len(arr2)
 
-    cdef cnp.float64_t[:] result = np.zeros(npts1*npts2, dtype=np.float64)
-
-    cdef cnp.float64_t[:] arr1_view = np.ascontiguousarray(arr1, dtype=np.float64)
-    cdef cnp.float64_t[:] arr2_view = np.ascontiguousarray(arr2, dtype=np.float64)
+    cdef double[:] result = np.zeros(npts1*npts2, dtype=np.float64)
 
     cdef int first_idx, last_idx
     try:
@@ -58,13 +53,16 @@ def pairwise_sum_cython_engine(arr1, arr2, arr1_loop_indices=None):
         first_idx, last_idx = 0, npts1
 
     cdef int i, j, idx_result
-    cdef cnp.float64_t x, y
+    cdef double x, y
 
     for i in range(first_idx, last_idx):
-        x = arr1_view[i]
+        x = arr1[i]
         for j in range(npts2):
-            y = arr2_view[j]
+            y = arr2[j]
             idx_result = i*npts2 + j
             result[idx_result] = x + y
 
+    #  We defined ``result`` as a cython typed memoryview for performance reasons
+    #  Typed memoryviews do not support convenient features such as broadcasting,
+    #  so we convert to a Numpy array before communicating ``result`` with the outside world
     return np.array(result)
