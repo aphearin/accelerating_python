@@ -16,11 +16,11 @@ except ImportError:
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-npts", help="Number of elements in the dummy input arrays x and y",
-    default=int(1e3), type=int)
+    default=int(2e3), type=int)
 args = parser.parse_args()
 
 # run the timing tests and print the results
-x, y = np.arange(args.npts), np.arange(args.npts)
+x, y = np.arange(args.npts).astype('f8'), np.arange(args.npts).astype('f8')
 
 start = time()
 serial_python_result = serial_pairwise_sum_python(x, y)
