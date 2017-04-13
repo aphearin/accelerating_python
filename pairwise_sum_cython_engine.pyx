@@ -38,10 +38,17 @@ def pairwise_sum_cython_engine(double[:] arr1, double[:] arr2):
         *i = k // npts2* and *j = k % npts2*.
 
     """
+    #  Declare all integers and floats used inside the loops
+    #  Note that in the declarations of the function arguments, we do not use ``cdef``
     cdef int npts1 = len(arr1)
     cdef int npts2 = len(arr2)
 
+    #  Declaring ``result`` as follows defines it to be what's called a "typed memoryview"
     cdef double[:] result = np.zeros(npts1*npts2, dtype=np.float64)
+    #  The numpy ``dtype`` must be consistent with the ``double`` declaration,
+    #  e.g., if you were declaring cdef long[:], you'd need dtype=np.int64,
+    #  or float[:], you'd need dtype=np.float32
+    #  For a 2-d array, you would instead use, e.g., double[:, :]
 
     cdef int i, j, idx_result
     cdef double x, y
