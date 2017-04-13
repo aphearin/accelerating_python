@@ -3,7 +3,7 @@
 import numpy as np
 cimport cython # only necessary for the performance-enhancing decorators
 
-__all__ = ('simple_pairwise_sum_cython_engine', )
+__all__ = ('pairwise_sum_cython_engine', )
 
 
 #  The following three decorators enhance the performance of our Cython function
@@ -11,7 +11,7 @@ __all__ = ('simple_pairwise_sum_cython_engine', )
 @cython.boundscheck(False)  # Assume indexing operations will not cause any IndexErrors to be raised
 @cython.wraparound(False)  #  Accessing array elements with negative numbers is not permissible
 @cython.nonecheck(False)  #  Never waste time checking whether a variable has been set to None
-def simple_pairwise_sum_cython_engine(double[:] arr1, double[:] arr2):
+def pairwise_sum_cython_engine(double[:] arr1, double[:] arr2):
     """ Function calculates the pairwise sum of all elements in arr1 and arr2.
 
     Parameters

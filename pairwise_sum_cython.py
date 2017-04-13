@@ -2,16 +2,16 @@
 calculating the pairwise sum of the elements of two arrays.
 """
 try:
-    from simple_pairwise_sum_cython_engine import simple_pairwise_sum_cython_engine
+    from pairwise_sum_cython_engine import pairwise_sum_cython_engine
 except ImportError:
     msg = ("The cython module must be compiled first via "
         "``python setup.py build_ext --inplace``")
     raise ImportError(msg)
 
-__all__ = ('simple_pairwise_sum_cython', )
+__all__ = ('pairwise_sum_cython', )
 
 
-def simple_pairwise_sum_cython(arr1, arr2):
+def pairwise_sum_cython(arr1, arr2):
     """ Function calculates the pairwise sum of all elements in arr1 and arr2.
 
     Parameters
@@ -47,6 +47,6 @@ def simple_pairwise_sum_cython(arr1, arr2):
         raise ValueError(msg)
 
     # Call the underlying cython kernel
-    result = simple_pairwise_sum_cython_engine(arr1, arr2)
+    result = pairwise_sum_cython_engine(arr1, arr2)
 
     return result

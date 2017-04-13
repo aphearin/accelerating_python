@@ -1,11 +1,6 @@
-# Accelerating Python 
+# Accelerating Python with Cython
 
-The purpose of this repository is to provide a few worked examples of how to speed up your python code in two different ways:
-
-* Using the python multiprocessing module
-* Using Cython
-
-The approach is to take a simple but non-trivial calculation, and do it repeatedly in different ways to demonstrate some of the tricks involved in writing cythonized parallel code. This repository is intended for people with basic knowledge of python, but no prior experience with either Cython or multiprocessing. If you are only interested in Cython, and not parallelization, you can simply ignore the sections on multiprocessing, and conversely. 
+The purpose of this repository is to provide a few worked examples of how to speed up your python code using Cython. The approach is to take a simple but non-trivial calculation of the pairwise sum of two arrays,  and just demonstrate some of the tricks involved in writing cythonized code. This repository is intended for people with basic knowledge of python, but no prior experience with Cython. 
 
 ## Getting started 
 

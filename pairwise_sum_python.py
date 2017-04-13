@@ -3,10 +3,10 @@ calculating the pairwise sum of the elements of two arrays.
 """
 import numpy as np
 
-__all__ = ('simple_pairwise_sum_python', )
+__all__ = ('pairwise_sum_python', )
 
 
-def simple_pairwise_sum_python(arr1, arr2):
+def pairwise_sum_python(arr1, arr2):
     """ Function calculates the pairwise sum of all elements in arr1 and arr2.
 
     Parameters
@@ -30,7 +30,7 @@ def simple_pairwise_sum_python(arr1, arr2):
     ----------
     >>> x = [1, 2, 3]
     >>> y = [4, 5, 6, 7]
-    >>> result = simple_pairwise_sum_python(x, y)
+    >>> result = pairwise_sum_python(x, y)
     """
     npts1, npts2 = len(arr1), len(arr2)
     result = np.zeros(npts1*npts2)
