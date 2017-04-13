@@ -1,15 +1,20 @@
 """ Module storing the kernel of the cythonized calculation of pairwise summation.
+
+This version of the cython engine permits a parallelized calculation through the
+use of the arr1_loop_indices argument.
 """
 import numpy as np # use import to get numpy functions
-cimport numpy as cnp # use cimport to get numpy types, naming as cnp for clarity
+cimport numpy as cnp # use cimport to get numpy types, renaming as cnp for clarity
 
 cimport cython # only necessary for the performance-enhancing decorators
 
 __all__ = ('pairwise_sum_cython_engine', )
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
-@cython.nonecheck(False)
+#  The following three decorators enhance the performance of our Cython function
+#  These decorators gain performance by sacrificing some of the niceties of python
+@cython.boundscheck(False)  # Assume indexing operations will not cause any IndexErrors to be raised
+@cython.wraparound(False)  #  Accessing array elements with negative numbers is not permissible
+@cython.nonecheck(False)  #  Never waste time checking whether a variable has been set to None
 def pairwise_sum_cython_engine(arr1, arr2, arr1_loop_indices=None):
     """ Function calculates the pairwise sum of all elements in arr1 and arr2.
 
